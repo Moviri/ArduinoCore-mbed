@@ -113,8 +113,6 @@ public:
      */
     typedef void* entry_handle_t;
 
-    static constexpr entry_handle_t invalid_entry_handle = nullptr;
-
     /* callbacks for asynchronous data retrieval from the security db */
 
     typedef mbed::Callback<void(entry_handle_t, const SecurityEntryKeys_t*)>
@@ -522,13 +520,9 @@ public:
     virtual void restore();
 
     /**
-     * Write all values and attempt to sync persistent storage. Passing in an optional valid
-     * db_handle will only write the given entry and not attempt to flush buffers.
-     *
-     * @param db_handle database entry to write. If invalid all entries are written and
-     *        persistent storage attempts to sync (flush buffers).
+     * Flush all values which might be stored in memory into NVM.
      */
-    virtual void sync(entry_handle_t db_handle = invalid_entry_handle);
+    virtual void sync(entry_handle_t db_handle);
 
     /**
      * Toggle whether values should be preserved across resets.

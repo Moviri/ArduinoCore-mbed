@@ -69,7 +69,6 @@
 #include "drivers/I2C.h"
 #include "drivers/I2CSlave.h"
 #include "drivers/CAN.h"
-#include "drivers/RawCAN.h"
 #include "drivers/UnbufferedSerial.h"
 #include "drivers/BufferedSerial.h"
 #include "drivers/FlashIAP.h"

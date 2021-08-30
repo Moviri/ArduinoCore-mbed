@@ -50,6 +50,8 @@ class FileHandle;
 extern const char *OK;
 extern const char *CRLF;
 
+#define BUFF_SIZE 32
+
 /* AT Error types enumeration */
 enum DeviceErrorType {
     DeviceErrorTypeNoError = 0,
@@ -112,7 +114,7 @@ public:
 
     /** Set callback function for URC
      *
-     *  @param prefix   URC text to look for, e.g. "+CMTI:". Maximum length is MBED_CONF_CELLULAR_AT_HANDLER_BUFFER_SIZE.
+     *  @param prefix   URC text to look for, e.g. "+CMTI:". Maximum length is BUFF_SIZE.
      *  @param callback function to call on prefix, or 0 to remove callback
      */
     void set_urc_handler(const char *prefix, Callback<void()> callback);
@@ -599,7 +601,7 @@ private: //Member variables
     bool _is_fh_usable;
 
     // should fit any prefix and int
-    char _recv_buff[MBED_CONF_CELLULAR_AT_HANDLER_BUFFER_SIZE];
+    char _recv_buff[BUFF_SIZE];
     // reading position
     size_t _recv_len;
     // reading length
@@ -628,7 +630,7 @@ private: //Member variables
     size_t _max_resp_length;
 
     // prefix set during resp_start and used to try matching possible information responses
-    char _info_resp_prefix[MBED_CONF_CELLULAR_AT_HANDLER_BUFFER_SIZE];
+    char _info_resp_prefix[BUFF_SIZE];
     bool _debug_on;
     bool _cmd_start;
     bool _use_delimiter;
@@ -638,7 +640,7 @@ private: //Member variables
     // eventqueue event id
     int _event_id;
 
-    char _cmd_buffer[MBED_CONF_CELLULAR_AT_HANDLER_BUFFER_SIZE];
+    char _cmd_buffer[BUFF_SIZE];
 };
 
 } // namespace mbed

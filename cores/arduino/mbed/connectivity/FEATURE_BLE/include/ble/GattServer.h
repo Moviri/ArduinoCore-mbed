@@ -112,8 +112,6 @@ public:
          *
          * @param connectionHandle The handle of the connection that changed the size.
          * @param attMtuSize
-         *
-         * @see negotiateAttMtu()
          */
         virtual void onAttMtuChange(
             ble::connection_handle_t connectionHandle,
@@ -164,14 +162,14 @@ public:
 
         /**
          * Function invoked when the GattServer instance is about
-         * to be shut down. This can be the result of a call to reset() or BLE::reset().
+         * to be shut down. This can result in a call to reset() or BLE::reset().
          */
         virtual void onShutdown(const GattServer &server) {
             (void)server;
         }
 
         /**
-         * Function invoked when the client has subscribed to characteristic updates.
+         * Function invoked when the client has subscribed to characteristic updates
          *
          * @note params has a temporary scope and should be copied by the
          * application if needed later
@@ -181,7 +179,7 @@ public:
         }
 
         /**
-         * Function invoked when the client has unsubscribed from characteristic updates.
+         * Function invoked when the client has unsubscribed to characteristic updates
          *
          * @note params has a temporary scope and should be copied by the
          * application if needed later
@@ -305,11 +303,9 @@ public:
      * GattServer state.
      *
      * @note This function is meant to be overridden in the platform-specific
-     * subclass. Overrides must call the parent function before any cleanup.
+     * subclass. Overides must call the parent function before any cleanup.
      *
      * @return BLE_ERROR_NONE on success.
-     *
-     * @see EventHandler::onShutdown()
      */
     ble_error_t reset();
 
@@ -405,9 +401,6 @@ public:
      *
      * @return BLE_ERROR_NONE if the attribute value has been successfully
      * updated.
-     *
-     * @see EventHandler::onDataSent(), this will only be triggered if there are
-     * client subscribed and the localOnly parameter is set to false.
      */
     ble_error_t write(
         GattAttribute::Handle_t attributeHandle,
@@ -436,9 +429,6 @@ public:
      *
      * @return BLE_ERROR_NONE if the attribute value has been successfully
      * updated.
-     *
-     * @see EventHandler::onDataSent(), this will only be triggered if there are
-     * client subscribed and the localOnly parameter is set to false.
      */
     ble_error_t write(
         ble::connection_handle_t connectionHandle,
@@ -458,8 +448,6 @@ public:
      *
      * @return BLE_ERROR_NONE if the connection and handle are found. False
      * otherwise.
-     *
-     * @see EventHandler::onDataSent()
      */
     ble_error_t areUpdatesEnabled(
         const GattCharacteristic &characteristic,
@@ -478,8 +466,6 @@ public:
      *
      * @return BLE_ERROR_NONE if the connection and handle are found. False
      * otherwise.
-     *
-     * @see EventHandler::onDataSent()
      */
     ble_error_t areUpdatesEnabled(
         ble::connection_handle_t connectionHandle,

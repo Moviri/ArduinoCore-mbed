@@ -17,7 +17,7 @@
 #ifndef MBED_RTOS_RTX1_TYPES_H
 #define MBED_RTOS_RTX1_TYPES_H
 
-#if MBED_CONF_RTOS_PRESENT
+#if MBED_CONF_RTOS_PRESENT || defined(UNITTEST)
 
 #include "cmsis_os.h"
 

@@ -249,17 +249,10 @@ public:
 
 #if BLE_ROLE_PERIPHERAL
         /**
-         * Called when a pairing request is received. Application should respond by
-         * calling the appropriate function: acceptPairingRequest() or cancelPairingRequest().
-         * This event will only trigger if setPairingRequestAuthorisation() was called with true.
-         * Otherwise the stack will handle the requests.
+         * Request application to accept or reject pairing. Application should respond by
+         * calling the appropriate function: acceptPairingRequest or cancelPairingRequest
          *
          * @param[in] connectionHandle connection connectionHandle
-         *
-         * @see requestPairing()
-         * @see requestAuthentication()
-         * @see setLinkEncryption()
-         * @see setPairingRequestAuthorisation()
          */
         virtual void pairingRequest(ble::connection_handle_t connectionHandle) {
             (void)connectionHandle;
@@ -271,9 +264,6 @@ public:
          *
          * @param[in] connectionHandle connection connectionHandle
          * @param[in] result result of the pairing indicating success or reason for failure
-         *
-         * @see acceptPairingRequest()
-         * @see requestPairing()
          */
         virtual void pairingResult(ble::connection_handle_t connectionHandle, SecurityCompletionStatus_t result) {
             (void)connectionHandle;
@@ -287,8 +277,6 @@ public:
          * @param[in] connectionHandle Connection handle.
          * @param[in] peer_address Peer address that has been saved by the security database, NULL it not found.
          * @param[in] address_is_public Address type, true if public. Invalid if peer_address NULL.
-         *
-         * @see getPeerIdentity()
          */
         virtual void peerIdentity(ble::connection_handle_t connectionHandle,
                                   const address_t *peer_address,
@@ -306,8 +294,6 @@ public:
          * Deliver the requested whitelist to the application.
          *
          * @param[in] whitelist pointer to the whitelist filled with entries based on bonding information
-         *
-         * @see generateWhitelistFromBondTable()
          */
         virtual void whitelistFromBondTable(::ble::whitelist_t* whitelist) {
             (void)whitelist;
@@ -318,14 +304,10 @@ public:
         //
 
         /**
-         * Triggered by change of encryption state on a link. This change can be initiated
-         * locally or by the remote peer.
+         * Inform the device of the encryption state of a given link.
          *
          * @param[in] connectionHandle connection connectionHandle
          * @param[in] result encryption state of the link
-         *
-         * @see requestAuthentication()
-         * @see setLinkEncryption()
          */
         virtual void linkEncryptionResult(ble::connection_handle_t connectionHandle, ble::link_encryption_t result) {
             (void)connectionHandle;
@@ -337,14 +319,10 @@ public:
         //
 
         /**
-         * Triggered during pairing based on IO capabilities of devices. Display the given
-         * passkey on the local device for user verification.
+         * Display the given passkey on the local device.
          *
          * @param[in] connectionHandle connection connectionHandle
          * @param[in] passkey 6 digit passkey to be displayed
-         *
-         * @see init()
-         * @see setIoCapability()
          */
 #if BLE_PASSKEY_DISPLAY_REVERSED_DIGITS_DEPRECATION
         MBED_DEPRECATED_SINCE("mbed-os-6.8.0", "This returns the passkey in reverse order. Please set the config option ble.ble-passkey-display-reversed-digits-deprecation in your mbed_app.json override section to false. This will then return the passkey in the correct order.")
@@ -363,10 +341,6 @@ public:
          * by supplying the confirmation using the confirmationEntered function.
          *
          * @param[in] connectionHandle connection connectionHandle
-         *
-         * @see init()
-         * @see setIoCapability()
-         * @see confirmationEntered()
          */
         virtual void confirmationRequest(ble::connection_handle_t connectionHandle) {
             (void)connectionHandle;
@@ -378,10 +352,6 @@ public:
          * proceed by supplying the passkey through the passkeyEntered function.
          *
          * @param[in] connectionHandle connection connectionHandle
-         *
-         * @see init()
-         * @see setIoCapability()
-         * @see passkeyEntered()
          */
         virtual void passkeyRequest(ble::connection_handle_t connectionHandle) {
             (void)connectionHandle;
@@ -390,13 +360,9 @@ public:
 #if BLE_FEATURE_SECURE_CONNECTIONS
         /**
          * Notify the application that a key was pressed by the peer during passkey entry.
-         * This is only informative to provide feedback to the user. These events will only
-         * be triggered if you call setKeypressNotification()
          *
          * @param[in] connectionHandle connection connectionHandle
          * @param[in] keypress type of keypress event
-         *
-         * @see setKeypressNotification()
          */
         virtual void keypressNotification(ble::connection_handle_t connectionHandle, ble::Keypress_t keypress) {
             (void)connectionHandle;
@@ -405,20 +371,16 @@ public:
 #endif // BLE_FEATURE_SECURE_CONNECTIONS
 
         /**
-         * Indicate to the application it needs to return legacy pairing OOB to the stack
-         * using legacyPairingOobReceived().
+         * Indicate to the application it needs to return legacy pairing OOB to the stack.
          *
          * @param[in] connectionHandle connection connectionHandle
-         *
-         * @see legacyPairingOobReceived()
          */
         virtual void legacyPairingOobRequest(ble::connection_handle_t connectionHandle) {
             (void)connectionHandle;
         }
 
         /**
-         * Indicate that the application needs to send legacy pairing OOB data to the peer through
-         * another communication channel.
+         * Indicate that the application needs to send legacy pairing OOB data to the peer.
          *
          * @param[in] address address that will be used in the pairing
          * @param[in] temporaryKey temporary key to be used in legacy pairing
@@ -436,8 +398,6 @@ public:
          * @param[in] random random number used to generate the confirmation
          * @param[in] confirm confirmation value to be use for authentication
          *                    in secure connections pairing
-         *
-         * @see generateOOB()
          */
         virtual void oobGenerated(const ble::address_t *address,
                                   const ble::oob_lesc_value_t *random,
@@ -458,8 +418,6 @@ public:
          * @param[in] connectionHandle connection connectionHandle
          * @param[in] csrk signing key, pointer only valid during call
          * @param[in] authenticated indicates if the signing key is authenticated
-         *
-         * @see getSigningKey()
          */
         virtual void signingKey(ble::connection_handle_t connectionHandle, const ble::csrk_t *csrk, bool authenticated) {
             (void)connectionHandle;
@@ -543,27 +501,10 @@ public:
      * Normally all bonding information is lost when device is reset, this requests that the stack
      * attempts to save the information and reload it during initialisation. This is not guaranteed.
      *
-     * @note This option is itself saved together with bonding data. When data is read after reset,
-     * the state of this option decides if data should be restored. If this option has not been saved
-     * the data will not be restored even if partial data is present.
-     *
      * @param[in] enable if true the stack will attempt to preserve bonding information on reset.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
      */
     ble_error_t preserveBondingStateOnReset(bool enable);
-
-    /**
-     * Some or all of bonding information may be stored in memory while in use. This will write
-     * bonding data to persistent storage. This will have no effect if no persistent storage is enabled.
-     *
-     * @note This implicitly also calls preserveBondingStateOnReset(true) inside.
-     *
-     * @note Depending on the driver used to implement the storage solution used this may be a disruptive
-     * operation and may cause active connections to drop due to failed processing deadlines.
-     *
-     * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     */
-    ble_error_t writeBondingStateToPersistentStorage();
 
     ////////////////////////////////////////////////////////////////////////////
     // List management
@@ -604,8 +545,6 @@ public:
      *
      * @param[in] connectionHandle Handle to identify the connection.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::pairingResult()
      */
     ble_error_t requestPairing(ble::connection_handle_t connectionHandle);
 #endif // BLE_ROLE_CENTRAL
@@ -617,8 +556,6 @@ public:
      *
      * @param[in] connectionHandle Handle to identify the connection.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::pairingRequest()
      */
     ble_error_t acceptPairingRequest(ble::connection_handle_t connectionHandle);
 #endif // BLE_ROLE_PERIPHERAL
@@ -629,8 +566,6 @@ public:
      *
      * @param[in] connectionHandle Handle to identify the connection.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::pairingRequest()
      */
     ble_error_t cancelPairingRequest(ble::connection_handle_t connectionHandle);
 
@@ -643,10 +578,6 @@ public:
      *                     to continue with pairing by calling acceptPairingRequest
      *                     or cancelPairingRequest if the user wishes to reject it.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::pairingRequest()
-     * @see EventHandler::acceptPairingRequest()
-     * @see EventHandler::cancelPairingRequest()
      */
     ble_error_t setPairingRequestAuthorisation(bool required = true);
 
@@ -655,8 +586,6 @@ public:
      *
      * @param[in] connectionHandle Handle to identify the connection.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::peerIdentity()
      */
     ble_error_t getPeerIdentity(ble::connection_handle_t connectionHandle);
 
@@ -666,7 +595,7 @@ public:
 
 #if BLE_FEATURE_SECURE_CONNECTIONS
     /**
-     * Allow or disallow the use of legacy pairing in case the application only wants
+     * Allow of disallow the use of legacy pairing in case the application only wants
      * to force the use of Secure Connections. If legacy pairing is disallowed and either
      * side doesn't support Secure Connections the pairing will fail.
      *
@@ -698,29 +627,21 @@ public:
 
     /**
      * Set the passkey that is displayed on the local device instead of using
-     * a randomly generated one. This will be used during pairing
+     * a randomly generated one
      *
      * @param[in] passkey ASCII string of 6 digits
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::passkeyRequest() - this will be called on the peer which will have
-     * to use passkeyEntered() to send this passkey back to us.
      */
     ble_error_t setDisplayPasskey(const Passkey_t passkey);
 
     /**
      * Set the security mode on a connection. Useful for elevating the security mode
      * once certain conditions are met, e.g., a particular service is found.
-     * This call is a request for the stack to take appropriate action and may result
-     * in (re)pairing or encryption. Wait for events in your registered EventHandler.
      *
      * @param[in]  connectionHandle   Handle to identify the connection.
      * @param[in]  securityMode       Requested security mode.
      *
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::linkEncryptionResult()
-     * @see EventHandler::pairingResult()
      */
     ble_error_t setLinkSecurity(ble::connection_handle_t connectionHandle, SecurityMode_t securityMode);
 
@@ -778,8 +699,6 @@ public:
      * @param[in] connectionHandle Handle to identify the connection.
      * @param[in] encryption encryption state requested
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::linkEncryptionResult()
      */
     ble_error_t setLinkEncryption(ble::connection_handle_t connectionHandle, ble::link_encryption_t encryption);
 
@@ -816,9 +735,6 @@ public:
      *
      * @param[in] connectionHandle Handle to identify the connection.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::linkEncryptionResult()
-     * @see EventHandler::pairingResult()
      */
     ble_error_t requestAuthentication(ble::connection_handle_t connectionHandle);
 
@@ -840,8 +756,6 @@ public:
      *                    address will be returned along with the rest of the OOB data when generation
      *                    is complete. Using an invalid address is illegal.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::oobGenerated()
      */
     ble_error_t generateOOB(const ble::address_t *address);
 
@@ -877,8 +791,6 @@ public:
      * @param[in] connectionHandle Handle to identify the connection.
      * @param[in] confirmation True value indicates the passkey displayed matches.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::confirmationRequest()
      */
     ble_error_t confirmationEntered(ble::connection_handle_t connectionHandle, bool confirmation);
 #endif // BLE_FEATURE_SECURE_CONNECTIONS
@@ -889,8 +801,6 @@ public:
      * @param[in] connectionHandle Handle to identify the connection.
      * @param[in] passkey ASCII string of digits entered by the user.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::passkeyRequest()
      */
     ble_error_t passkeyEntered(ble::connection_handle_t connectionHandle, Passkey_t passkey);
 
@@ -902,8 +812,6 @@ public:
      * @param[in] connectionHandle Handle to identify the connection.
      * @param[in] keypress Type of keypress event.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::keypressNotification() - this will be trigger on the peer
      */
     ble_error_t sendKeypressNotification(ble::connection_handle_t connectionHandle, ble::Keypress_t keypress);
 #endif // BLE_FEATURE_SECURE_CONNECTIONS
@@ -914,15 +822,12 @@ public:
      * @param[in] address address of the peer device this data comes from
      * @param[in] tk pointer to out of band data received containing the temporary key.
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see legacyPairingOobRequest
      */
     ble_error_t legacyPairingOobReceived(const ble::address_t *address, const ble::oob_tk_t *tk);
 
 #if BLE_FEATURE_SECURE_CONNECTIONS
     /**
-     * Supply the stack with the OOB data for secure connections. This data is generated on the peer
-     * and is received through another communication channel.
+     * Supply the stack with the OOB data for secure connections.
      *
      * @param[in] address address of the peer device this data comes from
      * @param[in] random random number used to generate the confirmation
@@ -948,8 +853,6 @@ public:
      *                             (provide MITM protection).
      *
      * @return BLE_ERROR_NONE or appropriate error code indicating the failure reason.
-     *
-     * @see EventHandler::signingKey()
      */
     ble_error_t getSigningKey(ble::connection_handle_t connectionHandle, bool authenticated);
 #endif // BLE_FEATURE_SIGNING
