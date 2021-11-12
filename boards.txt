@@ -211,7 +211,7 @@ nano33zigbee.compiler.mbed.cxxflags={build.variant.path}/cxxflags.txt
 nano33zigbee.compiler.mbed.includes={build.variant.path}/includes.txt
 nano33zigbee.compiler.mbed.extra_ldflags=-lstdc++ -lsupc++ -lm -lc -lgcc -lnosys
 #nano33zigbee.compiler.mbed="{build.variant.path}/libs/libmbed.a" "{build.variant.path}/libs/libzboss.a"
-nano33zigbee.compiler.mbed="{build.variant.path}/libs/libmbed.a" "{build.variant.path}/libs/libzboss.a" "{build.variant.path}/libs/lib_radio_driver.a"
+nano33zigbee.compiler.mbed="{build.variant.path}/libs/libmbed.a" "{build.variant.path}/libs/libzboss.a"
 #nano33zigbee.compiler.mbed="{build.variant.path}/libs/libmbed.a" 
 
 nano33zigbee.vid.0=0x2341
