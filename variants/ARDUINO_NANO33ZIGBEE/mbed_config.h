@@ -98,6 +98,7 @@
 #define MBED_CONF_CORDIO_RX_ACL_BUFFER_SIZE                                     70                                                                                               // set by library:cordio
 #define MBED_CONF_CORDIO_TRACE_HCI_PACKETS                                      0                                                                                                // set by library:cordio
 #define MBED_CONF_CORDIO_TRACE_PAL_ECHOES                                       0                                                                                                // set by library:cordio
+#define MBED_CONF_CRYPTOCELL310_PRESENT                                         1                                                                                                // set by library:cryptocell310
 #define MBED_CONF_DRIVERS_OSPI_CSN                                              OSPI_FLASH1_CSN                                                                                  // set by library:drivers
 #define MBED_CONF_DRIVERS_OSPI_DQS                                              OSPI_FLASH1_DQS                                                                                  // set by library:drivers
 #define MBED_CONF_DRIVERS_OSPI_IO0                                              OSPI_FLASH1_IO0                                                                                  // set by library:drivers
