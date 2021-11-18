@@ -103,7 +103,7 @@ extern "C" {
  *
  */
 
-// MbedOs handle Radio IrqHandler
+// MbedOS handle Radio IrqHandler
 
 #ifndef NRF_802154_INTERNAL_RADIO_IRQ_HANDLING
 
