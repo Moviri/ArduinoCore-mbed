@@ -122,13 +122,17 @@ mbed_compile () {
 		rm -rf BUILD
 	fi
 
-	PROFILE="DEVELOP"
 	PROFILE_FLAG=""
 	if [ x"$PROFILE" != x ]; then
 		if [ -f "$ARDUINOVARIANT/conf/profile/$PROFILE.json" ]; then
 			PROFILE_FLAG=--profile="$ARDUINOVARIANT"/conf/profile/$PROFILE.json
 		else
-			PROFILE_FLAG="--profile=${PROFILE} --profile=float_eabi_hard"
+			if [[ $FLOAT_ABI == "hard" ]]; then
+				PROFILE="DEVELOP"
+				PROFILE_FLAG="--profile=${PROFILE} --float-abi=hard"
+			else 
+				PROFILE_FLAG=--profile=${PROFILE}
+			fi
 		fi
 		export PROFILE=-${PROFILE^^}
 	fi
@@ -266,11 +270,13 @@ patch_spi_h () {
 # MAIN LOOP #
 #############
 
+export FLOAT_ABI="softfp"
 while getopts "cuar:b:p:" opt; do
 	case $opt in
 	c ) export MBED_CLEAN=1 ;;
 	u ) export MBED_UPDATE=1 ;;
 	a ) export APPLY_PATCHES=1 ;;
+	f ) export FLOAT_ABI="$OPTARG" ;;
 	r ) export LOCAL_REPO="$OPTARG" ;;
 	b ) export REMOTE_BRANCH="$OPTARG" ;;
 	p )
@@ -283,16 +289,18 @@ while getopts "cuar:b:p:" opt; do
 	esac
 done
 
+echo "FLOAT_ABI=$FLOAT_ABI"
 # Done with processing all the starting flags with getopts...
 shift $(( OPTIND - 1 ))
 
 if [ $# -eq 0 ] ; then
-	echo "Usage: $(basename $0) [-c] [-u] [-r /path/to/local/repo] [-b mbed/remote/branch] [-p /mbed/core/location] [VARIANT1:BOARD1 VARIANT2:BOARD1 VARIANT3:BOARD3 ... ]"
+	echo "Usage: $(basename $0) [-c] [-u] [-f softfp|hard] [-r /path/to/local/repo] [-b mbed/remote/branch] [-p /mbed/core/location] [VARIANT1:BOARD1 VARIANT2:BOARD1 VARIANT3:BOARD3 ... ]"
 	echo
 	echo " -c clean Mbed application BUILD directory"
 	echo " -u update to latest mbed-os release"
 	echo " -a apply patches"
 	echo " -b specify remote mbed-os branch to checkout"
+	echo " -f specify float abi compile mode: softfp | hard. Default: softfp"
 	echo " -r specify local mbed-os directory to link"
 	echo " -p specify local mbed core directory (defaults to PWD)"
 	echo
