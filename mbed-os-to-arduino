@@ -122,12 +122,13 @@ mbed_compile () {
 		rm -rf BUILD
 	fi
 
+	PROFILE="DEVELOP"
 	PROFILE_FLAG=""
 	if [ x"$PROFILE" != x ]; then
 		if [ -f "$ARDUINOVARIANT/conf/profile/$PROFILE.json" ]; then
 			PROFILE_FLAG=--profile="$ARDUINOVARIANT"/conf/profile/$PROFILE.json
 		else
-			PROFILE_FLAG=--profile="${PROFILE}"
+			PROFILE_FLAG="--profile=${PROFILE} --profile=float_eabi_hard"
 		fi
 		export PROFILE=-${PROFILE^^}
 	fi
