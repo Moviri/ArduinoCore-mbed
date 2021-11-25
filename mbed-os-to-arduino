@@ -123,20 +123,24 @@ mbed_compile () {
 	fi
 
 	PROFILE_FLAG=""
+	if [ $FLOAT_ABI == "hard" ]; then
+		HARD_PROFILE="--profile=float_abi_hard"
+	fi
 	if [ x"$PROFILE" != x ]; then
 		if [ -f "$ARDUINOVARIANT/conf/profile/$PROFILE.json" ]; then
-			PROFILE_FLAG=--profile="$ARDUINOVARIANT"/conf/profile/$PROFILE.json
+			PROFILE_FLAG=--profile="$ARDUINOVARIANT/conf/profile/$PROFILE.json $HARD_PROFILE"
 		else
-			if [[ $FLOAT_ABI == "hard" ]]; then
-				PROFILE="DEVELOP"
-				PROFILE_FLAG="--profile=${PROFILE} --float-abi=hard"
-			else 
-				PROFILE_FLAG=--profile=${PROFILE}
-			fi
+			PROFILE_FLAG="--profile=${PROFILE} $HARD_PROFILE"
 		fi
 		export PROFILE=-${PROFILE^^}
+	else
+		if [ $FLOAT_ABI == "hard" ]; then
+			echo "Hello World"
+			export PROFILE="DEVELOP"
+			PROFILE_FLAG="--profile=${PROFILE} $HARD_PROFILE"
+			export PROFILE=-${PROFILE^^}
+		fi
 	fi
-
 	mbed compile $PROFILE_FLAG --source . -v \
 	| tee >(cat | grep 'Compile \[' >&2) | grep "Macros:" > "$BOARDNAME".macros.txt
 	echo " done."
@@ -271,7 +275,7 @@ patch_spi_h () {
 #############
 
 export FLOAT_ABI="softfp"
-while getopts "cuar:b:p:" opt; do
+while getopts "cuaf:r:b:p:" opt; do
 	case $opt in
 	c ) export MBED_CLEAN=1 ;;
 	u ) export MBED_UPDATE=1 ;;
