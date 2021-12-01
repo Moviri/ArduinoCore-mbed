@@ -135,7 +135,6 @@ mbed_compile () {
 		export PROFILE=-${PROFILE^^}
 	else
 		if [ $FLOAT_ABI == "hard" ]; then
-			echo "Hello World"
 			export PROFILE="DEVELOP"
 			PROFILE_FLAG="--profile=${PROFILE} $HARD_PROFILE"
 			export PROFILE=-${PROFILE^^}
@@ -293,7 +292,6 @@ while getopts "cuaf:r:b:p:" opt; do
 	esac
 done
 
-echo "FLOAT_ABI=$FLOAT_ABI"
 # Done with processing all the starting flags with getopts...
 shift $(( OPTIND - 1 ))
 
