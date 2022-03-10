@@ -1,8 +1,9 @@
-/* ZBOSS Zigbee 3.0
+/*
+ * ZBOSS Zigbee 3.0
  *
- * Copyright (c) 2012-2018 DSR Corporation, Denver CO, USA.
- * http://www.dsr-zboss.com
- * http://www.dsr-corporation.com
+ * Copyright (c) 2012-2020 DSR Corporation, Denver CO, USA.
+ * www.dsr-zboss.com
+ * www.dsr-corporation.com
  * All rights reserved.
  *
  *
@@ -36,7 +37,8 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-PURPOSE: Provides example of matching table declaration for ZGPS sink
+ */
+/* PURPOSE: Provides example of matching table declaration for ZGPS sink
 */
 
 #ifndef ZB_ZGP_DEFAULT_MATCH_INFO_H
