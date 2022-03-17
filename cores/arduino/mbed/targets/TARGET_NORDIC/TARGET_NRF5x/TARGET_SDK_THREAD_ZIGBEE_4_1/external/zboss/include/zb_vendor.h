@@ -1,3 +1,5 @@
+/*THIS FILE WAS ORIGINALLY A SYMBOLIC LINK TO zb_vendor_cfg_nrf52_nordic_sdk.h*/
+
 /* ZBOSS Zigbee software protocol stack
  *
  * Copyright (c) 2012-2020 DSR Corporation, Denver CO, USA.
