@@ -210,7 +210,7 @@ nano33zigbee.compiler.mbed.cflags={build.variant.path}/cflags.txt
 nano33zigbee.compiler.mbed.cxxflags={build.variant.path}/cxxflags.txt
 nano33zigbee.compiler.mbed.includes={build.variant.path}/includes.txt
 nano33zigbee.compiler.mbed.extra_ldflags=-lstdc++ -lsupc++ -lm -lc -lgcc -lnosys
-nano33zigbee.compiler.mbed="{build.variant.path}/libs/libmbed.a" "{build.variant.path}/libs/libzboss.a" "{build.variant.path}/libs/libzcl.a" "{build.variant.path}/libs/libcommbdb.a" "{build.variant.path}/libs/libzgp.a" "{build.variant.path}/libs/libcc_310_core.a" "{build.variant.path}/libs/libcc_310_ext.a"
+nano33zigbee.compiler.mbed="{build.variant.path}/libs/libmbed.a" "{build.variant.path}/libs/libzboss.a" "{build.variant.path}/libs/libzgp.a" "{build.variant.path}/libs/libcc_310_core.a" "{build.variant.path}/libs/libcc_310_ext.a"
 
 nano33zigbee.vid.0=0x2341
 nano33zigbee.pid.0=0x005a
