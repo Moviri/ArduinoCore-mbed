@@ -49,11 +49,10 @@
  * symbols defined by ZBOSS source code Kconfig, which can be found in NCS
  * platform repository.
  */
-// #ifdef LIBZBOSS_CONFIG_FILE
-// #include LIBZBOSS_CONFIG_FILE
-// #endif
+#ifdef LIBZBOSS_CONFIG_FILE
+#include LIBZBOSS_CONFIG_FILE
+#endif
 
-#include "libzboss_config.h"
 #include "zb_config_platform.h"
 #include "zb_version.h"
 #include "zb_revision_r22.h"
@@ -160,6 +159,10 @@
 
 #ifdef CONFIG_ZB_MAC_QUEUE_SIZE
 #define ZB_MAC_QUEUE_SIZE CONFIG_ZB_MAC_QUEUE_SIZE
+#endif
+
+#ifdef CONFIG_ZB_NWK_CHANNEL_ACCEPT_LEVEL
+#define ZB_NWK_CHANNEL_ACCEPT_LEVEL CONFIG_ZB_NWK_CHANNEL_ACCEPT_LEVEL
 #endif
 
 #ifdef CONFIG_ZB_FILTER_OUT_CLUSTERS
